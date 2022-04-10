@@ -13,8 +13,9 @@ function Rocket(dna) {
 
   this.crashed = false;
   this.success = false;
+  this.gotThrough = false;
 
-  this.history = [];
+  this.mostFit = false;
 
   this.calcFitness = () => {
     let d = dist(this.pos.x, this.pos.y, target.x, target.y);
@@ -24,9 +25,9 @@ function Rocket(dna) {
     if (this.crashed) {
       this.fitness /= 10;
     }
-
     if (this.success) {
-      this.fitness *= (1000 * 1/frame);
+      let fr = map(frame, 0, lifespan, 0, 6);
+      this.fitness *= 10 + fr^2;
     }
   }
 
@@ -35,12 +36,18 @@ function Rocket(dna) {
   }
 
   this.update = () => {
-    this.history.push(this.pos);
-    this.crashed = this.pos.x < 0 || this.pos.x > width || this.pos.y < 0 || this.pos.y > height;
     if (dist(this.pos.x, this.pos.y, target.x, target.y) < 10) {
       this.success = true;
       this.pos = target.copy();
     }
+
+    if (this.pos.x < 0 || this.pos.x > width || this.pos.y < 0 || this.pos.y > height) {
+      this.crashed = true;
+    }
+    if (this.pos.x > barrierx && this.pos.x < barrierx + barrierw &&
+      this.pos.y > barriery && this.pos.y < barriery + barrierh) {
+        this.crashed = true;
+      }
 
     if (!this.crashed && !this.success) {
       this.applyForce(this.dna.genes[frame]);
@@ -55,6 +62,9 @@ function Rocket(dna) {
 
   this.draw = () => {
     push();
+    if (this.mostFit) {
+      fill(0, 255, 0);
+    }
     translate(this.pos.x, this.pos.y);
 
     rotate(this.vel.heading());  

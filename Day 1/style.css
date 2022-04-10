@@ -5,3 +5,14 @@ html, body {
 canvas {
   display: block;
 }
+
+p {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  color: white;
+}
+
+p + p {
+  top: 20px;
+}
