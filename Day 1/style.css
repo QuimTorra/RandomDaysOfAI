@@ -8,11 +8,11 @@ canvas {
 
 p {
   position: absolute;
-  top: 0;
+  top: 10px;
   left: 10px;
   color: white;
 }
 
 p + p {
-  top: 20px;
+  top: 30px;
 }
