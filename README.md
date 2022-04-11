@@ -1,6 +1,6 @@
 # RandomDaysOfAI
 My Attempt to learn how to build AI's and the algorithms that go with them.
 
-## Day 1
+On the first days I'll get into Genetic Algorythms, learn how they work, how to improve them...
 
-I'm gonna try to do a little work with P5js to learn basic Genetic Algorithms. 
+After that, I'll be getting more into Neural Networks, and their algorithms like Backpropagation, Supervised Learning, etc...
