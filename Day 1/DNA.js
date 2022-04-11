@@ -27,7 +27,7 @@ function DNA (genes) {
 
   this.mutate = () => {
     this.genes.forEach(gene => {
-      if (random(1) < 0.5) {
+      if (random(1) < 0.1) {
         gene = p5.Vector.random2D();
         gene.setMag(0.2);
       }
