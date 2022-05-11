@@ -9,33 +9,7 @@ class NeuralLayer {
     this.nn = numOfNeurons;
     this.pn = prevLayerNeurons;
     
-    switch (act_f) {
-      case "SIGMOID":
-        this.act_f = (x) => {
-          return 1 / 1 + Math.exp(-x);
-        }
-        this.act_f_der = (x) => {
-          var ex = Math.exp(-x);
-          return ex / Math.pow((1 + ex), 2);
-        }
-        break;
-      
-      case "TANH":
-        this.act_f = (x) => {
-          return Math.tanh(x);
-        }
-        break;
-    
-      case "ReLU":
-        this.act_f = (x) => {
-          return Math.max(0, x);
-        }
-        break;
-
-      default:
-        break;
-    }
-    
+    this.setActivation(act_f);
     if (input) {
       this.weights = this.randomize(this.pn, this.nn, 1, 1);
       this.bias = this.randomize(1, this.pn, 0, 0);
@@ -70,9 +44,38 @@ class NeuralLayer {
     console.log("not yet implemented");
   }
 
-  changeActivation (act_f) {
-    this.act_f = act_f[0];
-    this.act_f_der = act_f[1];
+  setActivation (act_f) {
+    switch (act_f) {
+      case "SIGMOID":
+        this.act_f = (x) => {
+          return 1 / (1 + Math.exp(-x));
+        }
+        this.act_f_der = (x) => {
+          var ex = Math.exp(-x);
+          return ex / Math.pow((1 + ex), 2);
+        }
+        break;
+      
+      case "TANH":
+        this.act_f = (x) => {
+          return Math.tanh(x);
+        }
+        break;
+    
+      case "ReLU":
+        this.act_f = (x) => {
+          return Math.max(0, x);
+        }
+        break;
+      case "STEP":
+        this.act_f = (x) => {
+          return Math.tanh(x) > 0 ? 1 : 0;
+        }
+        break;
+
+      default:
+        break;
+    }
   }
 
   randomize (rows, cols, min = -1, max = 1) {
@@ -161,5 +164,15 @@ class NeuralNetwork {
     }
 
     return output[0];
+  }
+
+  changeActivation(act_f) {
+    this.layers.forEach(L => {
+      L.setActivation(act_f);
+    });
+  }
+
+  setLayerActivation(layer, act_f) {
+    this.layers[layer].setActivation(act_f);
   }
 }
